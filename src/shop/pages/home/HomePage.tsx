@@ -10,5 +10,6 @@ export const HomePage = () => {
             <h1 className="font-montserrat font-bold">Hola mundo montserrat bold</h1>
             <Button>Hola mundo</Button>
         </div>
+
     )
 }
