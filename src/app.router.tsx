@@ -62,11 +62,11 @@ export const appRouter = createBrowserRouter([
                 element: <DashBoardPages />
             },
             {
-                path: '/products',
+                path: 'products',
                 element: <AdminProductsPage />
             },
             {
-                path: '/products/:id',
+                path: 'products/:id',
                 element: <AdminProductPage />
             },
         ]
