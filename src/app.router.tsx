@@ -10,8 +10,8 @@ import { DashBoardPages } from "./admin/pages/dashboard/DashBoardPages"
 import { AdminProductPage } from "./admin/pages/product/AdminProductPage"
 import { AdminProductsPage } from "./admin/pages/products/AdminProductsPage"
 
-const AuthLayout = lazy(() => import('./auth/layouts/AuthLayout'));
 const AdminLayout = lazy(() => import('./admin/layouts/AdminLayout'))
+const AuthLayout = lazy(() => import('./auth/layouts/AuthLayout'))
 
 export const appRouter = createBrowserRouter([
     //Public Routes
