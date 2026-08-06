@@ -1,6 +1,10 @@
+import { Outlet } from "react-router"
 
 export const AdminProductsPage = () => {
     return (
-        <div>AdminProductsPage</div>
+        <>
+            AdminProductsPage
+            <Outlet />
+        </>
     )
 }
