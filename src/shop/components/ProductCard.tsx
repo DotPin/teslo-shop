@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useNavigate, useSearchParams } from "react-router";
 
 interface ProductCardProps {
     id: string;
@@ -10,6 +11,16 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ id, name, price, image, category }: ProductCardProps) => {
+
+    const [_, setParams] = useSearchParams();
+
+    const navigate = useNavigate();
+
+    const handleclick = () => {
+        setParams({ idSlug: name })
+        navigate(`product/idSlug=${name}`);
+    }
+
     return (
         <Card className="group border-0 shadow-none product-card-hover cursor-pointer">
             <CardContent className="p-0">
@@ -18,6 +29,7 @@ const ProductCard = ({ id, name, price, image, category }: ProductCardProps) => 
                         src={image}
                         alt={name}
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        onClick={handleclick}
                     />
                     <div className="image-overlay" />
                 </div>
