@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useNavigate, useSearchParams } from "react-router";
+import { useNavigate } from "react-router";
 
 interface ProductCardProps {
     id: string;
@@ -12,13 +12,12 @@ interface ProductCardProps {
 
 const ProductCard = ({ id, name, price, image, category }: ProductCardProps) => {
 
-    const [_, setParams] = useSearchParams();
-
     const navigate = useNavigate();
 
+    console.log(Navigation.arguments)
+
     const handleclick = () => {
-        setParams({ idSlug: name })
-        navigate(`product/idSlug=${name}`);
+        navigate(`product/${name}`);
     }
 
     return (
