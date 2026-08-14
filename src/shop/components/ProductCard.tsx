@@ -14,7 +14,7 @@ const ProductCard = ({ id, name, price, image, category }: ProductCardProps) => 
 
     const navigate = useNavigate();
 
-    console.log(Navigation.arguments)
+    //console.log(Navigation.arguments)
 
     const handleclick = () => {
         navigate(`product/${name}`);
