@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import type { Size } from "@/interfaces/product.interface";
 import { useNavigate } from "react-router";
 
 interface ProductCardProps {
@@ -8,9 +9,10 @@ interface ProductCardProps {
     price: number;
     image: string;
     category: string;
+    size: Size[];
 }
 
-const ProductCard = ({ id, name, price, image, category }: ProductCardProps) => {
+const ProductCard = ({ id, name, price, image, category, sizes }: ProductCardProps) => {
 
     const navigate = useNavigate();
 
@@ -36,7 +38,9 @@ const ProductCard = ({ id, name, price, image, category }: ProductCardProps) => 
                 <div className="pt-6 px-4 pb-4 space-y-3">
                     <div className="space-y-1">
                         <h3 className="font-medium text-sm tracking-tight">{name}</h3>
-                        <p className="text-xs text-muted-foreground uppercase">{category}</p>
+                        <p className="text-xs text-muted-foreground uppercase">
+                            {category} - <span className="font-bold">{sizes.join(',')}</span>
+                        </p>
                     </div>
 
                     <div className="flex items-center justify-between">
