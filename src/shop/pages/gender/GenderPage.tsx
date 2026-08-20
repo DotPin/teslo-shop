@@ -17,7 +17,7 @@ export const GenderPage = () => {
 
       <ProductGrid products={data?.products || []} />
 
-      <CustomPagination totalPages={4} />
+      <CustomPagination totalPages={data?.pages || 1} />
     </>
   )
 }
