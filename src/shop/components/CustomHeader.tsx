@@ -13,6 +13,8 @@ export const CustomHeader = () => {
 
     const query = searchParams.get('query') ?? '';
 
+    console.log({ gender });
+
     const handleSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== 'Enter') return;
         const query = event.currentTarget.value;

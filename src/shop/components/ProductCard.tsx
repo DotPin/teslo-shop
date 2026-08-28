@@ -9,16 +9,14 @@ interface ProductCardProps {
     price: number;
     image: string;
     category: string;
-    size: Size[];
+    sizes: Size[];
 }
 
-const ProductCard = ({ id, name, price, image, category, sizes }: ProductCardProps) => {
+const ProductCard = ({ name, price, image, category, sizes }: ProductCardProps) => {
 
     const navigate = useNavigate();
 
-    //console.log(Navigation.arguments)
-
-    const handleclick = () => {
+    const handleClick = () => {
         navigate(`product/${name}`);
     }
 
@@ -30,7 +28,7 @@ const ProductCard = ({ id, name, price, image, category, sizes }: ProductCardPro
                         src={image}
                         alt={name}
                         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        onClick={handleclick}
+                        onClick={handleClick}
                     />
                     <div className="image-overlay" />
                 </div>
