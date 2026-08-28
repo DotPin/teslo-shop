@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router"
 import { useState } from "react";
 import { useProducts } from "@/shop/hooks/useProducts";
-import { useCounterStore } from "@/auth/store/auth.store";
+import { useCounterStore } from "@/auth/store/count.store";
 
 export const ProductPage = () => {
 
