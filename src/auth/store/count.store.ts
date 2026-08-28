@@ -1,0 +1,17 @@
+import { create } from 'zustand'
+
+type Store = {
+    count: number
+    inc: () => void
+    dec: () => void
+}
+
+export const useCounterStore = create<Store>()((set) => ({
+    count: 1,
+    inc: () => set((state) => ({ count: state.count + 1 })),
+    dec: () => set((state) => {
+        if (state.count < 2) return state
+        return { count: state.count - 1 }
+    }),
+}))
+
