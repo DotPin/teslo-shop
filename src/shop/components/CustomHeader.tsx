@@ -4,16 +4,16 @@ import { Input } from "@/components/ui/input";
 import { Link, useParams, useSearchParams } from "react-router";
 import { cn } from "@/lib/utils";
 import { CustomLogo } from "@/components/custom/CustomLogo";
+import { useAuthStore } from "@/auth/store/auth.store";
 
 export const CustomHeader = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const { gender } = useParams();
+    const { user, logout } = useAuthStore();
     //const inputRef = useRef<HTMLInputElement>(null);
 
     const query = searchParams.get('query') ?? '';
-
-    console.log({ gender });
 
     const handleSearch = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key !== 'Enter') return;
@@ -90,26 +90,52 @@ export const CustomHeader = () => {
                     <Button variant="ghost" size="icon" className="md:hidden">
                         <Search className="h-5 w-5" />
                     </Button>
+                    {user ?
+                        <Link to="/">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="ml-2"
+                                onClick={logout}
+                            >
+                                Logout
+                            </Button>
+                        </Link>
+                        :
+                        <Link to="/auth/login">
+                            <Button
+                                variant="default"
+                                size="sm"
+                                className="ml-2"
+                            >
+                                Login
+                            </Button>
+                        </Link>
 
-                    <Link to="/auth/login">
-                        <Button
-                            variant="default"
-                            size="sm"
-                            className="ml-2"
-                        >
-                            Login
-                        </Button>
-                    </Link>
+                    }
+                    {
+                        user?.roles[0] == 'admin' ?
+                            <Link to="/admin">
+                                <Button
+                                    variant="destructive"
+                                    size="sm"
+                                    className="ml-2"
+                                >
+                                    {user?.roles[0]}
+                                </Button>
+                            </Link>
+                            :
+                            <Link to="/">
+                                <Button
+                                    variant="destructive"
+                                    size="sm"
+                                    className="ml-2"
+                                >
+                                    {!user?.roles[0] ? 'Guest' : user?.roles[0]}
+                                </Button>
+                            </Link>
 
-                    <Link to="/admin">
-                        <Button
-                            variant="destructive"
-                            size="sm"
-                            className="ml-2"
-                        >
-                            Admin
-                        </Button>
-                    </Link>
+                    }
                 </div>
             </div>
         </div>
