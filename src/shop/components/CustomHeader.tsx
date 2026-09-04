@@ -11,7 +11,7 @@ export const CustomHeader = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const { gender } = useParams();
-    const { user, logout } = useAuthStore();
+    const { authStatus, isAdmin, logout } = useAuthStore();
     //const inputRef = useRef<HTMLInputElement>(null);
 
     const query = searchParams.get('query') ?? '';
@@ -91,7 +91,7 @@ export const CustomHeader = () => {
                     <Button variant="ghost" size="icon" className="md:hidden">
                         <Search className="h-5 w-5" />
                     </Button>
-                    {user ?
+                    {authStatus == 'authenticated' ?
                         <Link to="/">
                             <Button
                                 variant="outline"
@@ -115,14 +115,14 @@ export const CustomHeader = () => {
 
                     }
                     {
-                        user?.roles[0] == 'admin' ?
+                        isAdmin() ?
                             <Link to="/admin">
                                 <Button
                                     variant="destructive"
                                     size="sm"
                                     className="ml-2"
                                 >
-                                    {user?.roles[0]}
+                                    {'Admin'}
                                 </Button>
                             </Link>
                             :
@@ -132,7 +132,7 @@ export const CustomHeader = () => {
                                     size="sm"
                                     className="ml-2"
                                 >
-                                    {!user?.roles[0] ? 'Guest' : user?.roles[0]}
+                                    {'Guest'}
                                 </Button>
                             </Link>
 
