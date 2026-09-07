@@ -32,7 +32,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     //Getters
     isAdmin: () => {
         const roles = get().user?.roles || [];
-        console.log(roles)
 
         return roles.includes('admin');
     },
