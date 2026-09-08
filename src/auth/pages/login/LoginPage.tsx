@@ -120,7 +120,7 @@ export const LoginPage = () => {
                   </Button>
                 </div>
                 <div className="text-center text-sm">
-                  No tienes quenta
+                  No tienes cuenta
                   <Link to="/auth/register" className="underline underline-offset-4">
                     Crea una
                   </Link>

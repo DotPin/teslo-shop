@@ -2,6 +2,7 @@ import type { User } from '@/interfaces/user.interface'
 import { create } from 'zustand'
 import { loginAction } from '../actions/login.action'
 import { checkAuthAction } from '../actions/check-auth.action'
+import { registerAction } from '../actions/register.action'
 
 type AuthStatus = 'authenticated' | 'not-authenticated' | 'checking'
 
@@ -19,7 +20,9 @@ type AuthState = {
     //Actions
     login: (email: string, password: string) => Promise<boolean>
     logout: () => void
+    register: (fullName: string, email: string, password: string) => Promise<boolean>
     checkAuthStatus: () => Promise<boolean>
+
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
@@ -80,6 +83,31 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
             });
             return false;
         }
+    },
+
+    register: async (fullName: string, email: string, password: string) => {
+
+        try {
+
+            const { user, token } = await registerAction(fullName, email, password);
+            localStorage.setItem('token', token);
+            set({
+                user: user,
+                token: token,
+                authStatus: 'authenticated'
+            });
+            return true
+
+        } catch (error) {
+            set({
+                user: undefined,
+                token: undefined,
+                authStatus: 'not-authenticated'
+            });
+            return false;
+        }
+
+        return true;
     }
 }))
 
