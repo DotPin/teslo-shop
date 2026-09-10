@@ -41,7 +41,7 @@ export const AdminProductsPage = () => {
             <Table className="bg-white p-10 shadow-xs border border-gray-200 mb-10">
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="w-[100px]">ID</TableHead>
+                        <TableHead className="w-100px">ID</TableHead>
                         <TableHead>Imagen</TableHead>
                         <TableHead>Nombre</TableHead>
                         <TableHead>Precio</TableHead>
@@ -55,7 +55,7 @@ export const AdminProductsPage = () => {
                     {
                         data?.products.map(product => (
 
-                            <TableRow>
+                            <TableRow key={product.id}>
                                 <TableCell className="font-medium">1</TableCell>
                                 <TableCell>
                                     <img

@@ -1,12 +1,14 @@
 // https://github.com/Klerith/bolt-product-editor
 
 import { AdminTitle } from '@/admin/components/AdminTitle';
-import { useParams } from 'react-router';
+import { Navigate, useParams } from 'react-router';
 
 import { useState } from 'react';
 import { X, Plus, Upload, Tag, SaveAll } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router';
+import { useProduct } from '@/admin/hooks/useProduct';
+import { CustomFullScreenLoading } from '@/components/custom/CustomFullScreenLoading';
 
 interface Product {
   id: string;
@@ -23,6 +25,10 @@ interface Product {
 
 export const AdminProductPage = () => {
   const { id } = useParams();
+
+  const { isLoading, isError, data: product2 } = useProduct(id || '');
+
+  console.log({ isLoading, isError, product2 })
 
   const productTitle = id === 'new' ? 'Nuevo producto' : 'Editar producto';
   const productSubtitle =
@@ -53,6 +59,16 @@ export const AdminProductPage = () => {
   const [dragActive, setDragActive] = useState(false);
 
   const availableSizes = ['XXS', 'XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+
+
+  if (isError) {
+    return <Navigate to='/admin/products' />
+  }
+
+  if (isLoading) {
+    return <CustomFullScreenLoading />
+  }
+
 
   const handleInputChange = (field: keyof Product, value: string | number) => {
     setProduct((prev) => ({ ...prev, [field]: value }));
@@ -271,8 +287,8 @@ export const AdminProductPage = () => {
                       onClick={() => addSize(size)}
                       disabled={product.sizes.includes(size)}
                       className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${product.sizes.includes(size)
-                          ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                          : 'bg-slate-200 text-slate-700 hover:bg-slate-300 cursor-pointer'
+                        ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                        : 'bg-slate-200 text-slate-700 hover:bg-slate-300 cursor-pointer'
                         }`}
                     >
                       {size}
@@ -335,8 +351,8 @@ export const AdminProductPage = () => {
               {/* Drag & Drop Zone */}
               <div
                 className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-all duration-200 ${dragActive
-                    ? 'border-blue-400 bg-blue-50'
-                    : 'border-slate-300 hover:border-slate-400'
+                  ? 'border-blue-400 bg-blue-50'
+                  : 'border-slate-300 hover:border-slate-400'
                   }`}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
@@ -415,10 +431,10 @@ export const AdminProductPage = () => {
                   </span>
                   <span
                     className={`px-2 py-1 text-xs font-medium rounded-full ${product.stock > 5
-                        ? 'bg-green-100 text-green-800'
-                        : product.stock > 0
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-red-100 text-red-800'
+                      ? 'bg-green-100 text-green-800'
+                      : product.stock > 0
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-red-100 text-red-800'
                       }`}
                   >
                     {product.stock > 5
