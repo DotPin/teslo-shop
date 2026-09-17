@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 
 import { AdminTitle } from "@/admin/components/AdminTitle";
 import { Button } from "@/components/ui/button";
-import type { Product } from "@/interfaces/product.interface";
+import type { Product, Size } from "@/interfaces/product.interface";
 
 import { Plus, SaveAll, Tag, Upload, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -16,13 +16,21 @@ interface Props {
     product: Product
 }
 
-const availableSizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+const availableSizes: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
 export const ProductForm = ({ title, subTitle, product }: Props) => {
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register,
+        handleSubmit,
+        formState: { errors },
+        getValues,
+        setValue,
+        watch
+    } = useForm({
         defaultValues: product
     })
+
+    const selectedSizes = watch('sizes');
 
     const [newTag, setNewTag] = useState('');
     const [dragActive, setDragActive] = useState(false);
@@ -43,7 +51,10 @@ export const ProductForm = ({ title, subTitle, product }: Props) => {
         // }));
     };
 
-    const addSize = (size: string) => {
+    const addSize = (size: Size) => {
+        const sizeSet = new Set(getValues('sizes'));
+        sizeSet.add(size);
+        setValue('sizes', Array.from(sizeSet))
         // if (!product.sizes.includes(size)) {
         //     setProduct((prev) => ({
         //         ...prev,
@@ -282,10 +293,15 @@ export const ProductForm = ({ title, subTitle, product }: Props) => {
 
                             <div className="space-y-4">
                                 <div className="flex flex-wrap gap-2">
-                                    {product.sizes.map((size) => (
+                                    {availableSizes.map((size) => (
                                         <span
                                             key={size}
-                                            className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 border border-blue-200"
+                                            className={cn(
+                                                "inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 border border-blue-200",
+                                                {
+                                                    hidden: !selectedSizes.includes(size)
+                                                }
+                                            )}
                                         >
                                             {size}
                                             <button
@@ -305,12 +321,13 @@ export const ProductForm = ({ title, subTitle, product }: Props) => {
                                     {availableSizes.map((size) => (
                                         <button
                                             key={size}
-                                        // onClick={() => addSize(size)}
-                                        // disabled={product.sizes.includes(size)}
-                                        // className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${product.sizes.includes(size)
-                                        //     ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                                        //     : 'bg-slate-200 text-slate-700 hover:bg-slate-300 cursor-pointer'
-                                        //     }`}
+                                            type="button"
+                                            onClick={() => addSize(size)}
+                                            disabled={getValues('sizes').includes(size)}
+                                            className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${selectedSizes.includes(size)
+                                                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                                                    : 'bg-slate-200 text-slate-700 hover:bg-slate-300 cursor-pointer'
+                                                }`}
                                         >
                                             {size}
                                         </button>
