@@ -13,12 +13,15 @@ import { cn } from "@/lib/utils";
 interface Props {
     title: string;
     subTitle: string;
-    product: Product
+    product: Product;
+
+    //Methods
+    onSubmit: (productLike: Partial<Product>) => Promise<void>;
 }
 
 const availableSizes: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
-export const ProductForm = ({ title, subTitle, product }: Props) => {
+export const ProductForm = ({ title, subTitle, product, onSubmit }: Props) => {
 
     const { register,
         handleSubmit,
@@ -95,10 +98,6 @@ export const ProductForm = ({ title, subTitle, product }: Props) => {
 
     //TODO remove en un futuro
 
-    const onSubmit = (productLike: Product) => {
-        //console.log('onSubmit', productLike)
-    }
-
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex justify-between items-center">
@@ -111,7 +110,7 @@ export const ProductForm = ({ title, subTitle, product }: Props) => {
                         </Link>
                     </Button>
 
-                    <Button>
+                    <Button type="submit">
                         <SaveAll className="w-4 h-4" />
                         Guardar cambios
                     </Button>
@@ -167,7 +166,7 @@ export const ProductForm = ({ title, subTitle, product }: Props) => {
                                                 min: 1
                                             })
                                             }
-                                            value={product.price}
+                                            //value={product.price}
                                             className={cn("w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200",
                                                 { "border-red-500": errors.price, }
                                             )}
@@ -194,7 +193,7 @@ export const ProductForm = ({ title, subTitle, product }: Props) => {
                                                 min: 1
                                             })
                                             }
-                                            value={product.stock}
+                                            //value={product.stock}
                                             className={cn("w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200",
                                                 { "border-red-500": errors.stock, }
                                             )}
