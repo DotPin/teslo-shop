@@ -14,6 +14,7 @@ interface Props {
     title: string;
     subTitle: string;
     product: Product;
+    isPending: boolean;
 
     //Methods
     onSubmit: (productLike: Partial<Product>) => Promise<void>;
@@ -21,7 +22,7 @@ interface Props {
 
 const availableSizes: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
-export const ProductForm = ({ title, subTitle, product, onSubmit }: Props) => {
+export const ProductForm = ({ title, subTitle, product, onSubmit, isPending }: Props) => {
 
     const { register,
         handleSubmit,
@@ -110,7 +111,7 @@ export const ProductForm = ({ title, subTitle, product, onSubmit }: Props) => {
                         </Link>
                     </Button>
 
-                    <Button type="submit">
+                    <Button type="submit" disabled={isPending}>
                         <SaveAll className="w-4 h-4" />
                         Guardar cambios
                     </Button>
