@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useForm } from 'react-hook-form'
 
@@ -41,6 +41,10 @@ export const ProductForm = ({ title, subTitle, product, onSubmit, isPending }: P
 
     const labelInputref = useRef<HTMLInputElement>(null)
     const [files, setFiles] = useState<File[]>([]);
+
+    useEffect(() => {
+        setFiles([])
+    }, []);
 
     const selectedSizes = watch('sizes');
     const selectedTags = watch('tags');
