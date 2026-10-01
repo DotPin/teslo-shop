@@ -3,21 +3,22 @@ import type { Product } from "@/interfaces/product.interface"
 import { sleep } from "@/lib/sleep";
 
 export const createUpdateProductAction = async (
-    productLike: Partial<Product>
+    productLike: Partial<Product> & { files?: File[] }
 ): Promise<Product> => {
 
     await sleep(1500);
 
-    const { id, user, images = [], ...rest } = productLike;
+    const { id, user, images = [], files = [], ...rest } = productLike;
 
     const isCreating = id === 'new';
 
     rest.stock = Number(rest.stock || 0);
     rest.price = Number(rest.price || 0);
 
+    console.log({ files })
 
     const { data } = await tesloApi<Product>({
-        url: isCreating ? '/products' : `/products/${id}`,
+        url: isCreating ? '/product' : `/product/${id}`,
         method: isCreating ? 'POST' : 'PATCH',
         data: rest
     })

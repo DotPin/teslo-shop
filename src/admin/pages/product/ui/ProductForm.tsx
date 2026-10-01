@@ -17,10 +17,15 @@ interface Props {
     isPending: boolean;
 
     //Methods
-    onSubmit: (productLike: Partial<Product>) => Promise<void>;
+    onSubmit: (productLike: Partial<Product> & { files?: File[] }) => Promise<void>;
 }
 
 const availableSizes: Size[] = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+
+interface FormInputs extends Product {
+    files?: File[]
+}
+
 
 export const ProductForm = ({ title, subTitle, product, onSubmit, isPending }: Props) => {
 
@@ -30,9 +35,9 @@ export const ProductForm = ({ title, subTitle, product, onSubmit, isPending }: P
         getValues,
         setValue,
         watch
-    } = useForm({
+    } = useForm<FormInputs>({
         defaultValues: product
-    })
+    });
 
     const labelInputref = useRef<HTMLInputElement>(null)
     const [files, setFiles] = useState<File[]>([]);
@@ -41,7 +46,6 @@ export const ProductForm = ({ title, subTitle, product, onSubmit, isPending }: P
     const selectedTags = watch('tags');
     const currentStock = watch('stock');
 
-    const [newTag, setNewTag] = useState('');
     const [dragActive, setDragActive] = useState(false);
 
     const addTag = () => {
@@ -92,9 +96,11 @@ export const ProductForm = ({ title, subTitle, product, onSubmit, isPending }: P
         const files = e.dataTransfer.files;
 
         if (!files) return;
-        console.log(files);
 
         setFiles((prev) => [...prev, ...Array.from(files)]);
+
+        const currentFiles = getValues('files') || [];
+        setValue('files', [...currentFiles, ...Array.from(files)]);
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,6 +109,9 @@ export const ProductForm = ({ title, subTitle, product, onSubmit, isPending }: P
         if (!files) return;
 
         setFiles((prev) => [...prev, ...Array.from(files)]);
+
+        const currentFiles = getValues('files') || [];
+        setValue('files', [...currentFiles, ...Array.from(files)]);
     };
 
     //TODO remove en un futuro
