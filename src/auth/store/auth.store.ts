@@ -36,7 +36,9 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     isAdmin: () => {
         const roles = get().user?.roles || [];
 
-        return roles.includes('admin');
+        //console.log(roles[0] === 'admin');
+
+        return roles[0] === 'admin';
     },
 
 
